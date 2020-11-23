@@ -2,10 +2,10 @@ import { INestApplication } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
+import { CarPosition } from '../src/schema/car-position';
 import { CarModule } from './../src/car/car.module';
 import { Car } from './../src/schema/car';
 import { Coordinates } from './../src/schema/coordinates';
-import { Log } from './../src/schema/log';
 import { TrackCarsResponse } from './../src/schema/track-cars-response';
 
 describe('CarController (e2e)', () => {
@@ -25,12 +25,12 @@ describe('CarController (e2e)', () => {
     done();
   });
 
-  it('should return cars init histories', async () => {
+  it('should return cars init positions', async () => {
     const response = await request(app.getHttpServer()).get('/car').expect('Content-Type', /json/).expect(200);
 
     const result: TrackCarsResponse = response.body;
     expect(result.data.length).toBeGreaterThan(0);
-    result.data.forEach((log: Log) => {
+    result.data.forEach((log: CarPosition) => {
       expect(log.id).toBeDefined();
       expect(log.timestamp).toBeDefined();
 

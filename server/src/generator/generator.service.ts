@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Car } from '../schema/car';
+import { CarPosition } from '../schema/car-position';
 import { Coordinates } from '../schema/coordinates';
-import { Log } from '../schema/log';
 
 @Injectable()
 export class GeneratorService {
@@ -34,11 +34,11 @@ export class GeneratorService {
     return cars;
   }
 
-  initHistory(cars: Car[]): Log[] {
-    const history: Log[] = [];
+  initPositions(cars: Car[]): CarPosition[] {
+    const positions: CarPosition[] = [];
     if (cars && cars.length > 0) {
       for (let i = 0; i < cars.length; i++) {
-        const log: Log = {
+        const log: CarPosition = {
           id: i,
           car: cars[i],
           timestamp: new Date(),
@@ -47,39 +47,38 @@ export class GeneratorService {
             latitude: this.randomizeFlaotFromRange(this.latitudeMinLimit, this.latitudeMaxLimit),
           },
         };
-        history.push(log);
+        positions.push(log);
       }
     }
 
-    return history;
+    return positions;
   }
 
-  generateHistoryUpdate(cars: Car[], currentHistory: Log[]): Log[] {
-    const historyUpdate: Log[] = [];
-    if (cars && cars.length > 0) {
-      for (let i = 0; i < cars.length; i++) {
+  generateNewPositions(cars: Car[], currentPositions: CarPosition[]): CarPosition[] {
+    const newPositions: CarPosition[] = [];
+    if (currentPositions && currentPositions.length > 0) {
+      for (let i = 0; i < currentPositions.length; i++) {
         // 90% chance to move
         const shouldMove = Math.floor(Math.random() * 10) <= 8;
 
         if (shouldMove) {
-          const carHistory = currentHistory.filter((h) => h.car.id === cars[i].id);
-          const lastPosition = carHistory.reduce((a, b) => (a.timestamp > b.timestamp ? a : b)).coordinates;
-          const newLog: Log = {
-            id: currentHistory.length + i,
-            car: cars[i],
+          const newPosition: CarPosition = {
+            id: currentPositions[i].id,
+            car: currentPositions[i].car,
             timestamp: new Date(),
-            coordinates: this.randomNewCoordinates(lastPosition),
+            coordinates: this.randomNewCoordinates(currentPositions[i].coordinates),
           };
 
-          historyUpdate.push(newLog);
+          newPositions.push(newPosition);
           console.log(`[LOG] Car with ID="${cars[i].id} has moved`);
         } else {
+          newPositions.push(currentPositions[i]);
           console.log(`[LOG] Car with ID="${cars[i].id} did not move`);
         }
       }
     }
 
-    return historyUpdate;
+    return newPositions;
   }
 
   private randomizeFlaotFromRange(min: number, max: number): number {

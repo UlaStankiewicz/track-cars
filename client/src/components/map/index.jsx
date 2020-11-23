@@ -11,9 +11,9 @@ const MapContainer = styled('div')(() => ({
 export const Map = props => {
   const defaulCenter = {
     lat: 54.43,
-    lng: 18.59,
+    lng: 18.51,
   };
-  const defaultZoom = 12;
+  const defaultZoom = 11;
 
   return (
     <MapContainer>

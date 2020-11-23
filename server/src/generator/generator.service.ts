@@ -5,8 +5,6 @@ import { Log } from '../schema/log';
 
 @Injectable()
 export class GeneratorService {
-  private carHistory: Log[] = [];
-
   private readonly longitudeMinLimit = 18.41;
   private readonly longitudeMaxLimit = 18.55;
   private readonly latitudeMinLimit = 54.29;
@@ -67,7 +65,7 @@ export class GeneratorService {
           const carHistory = currentHistory.filter((h) => h.car.id === cars[i].id);
           const lastPosition = carHistory.reduce((a, b) => (a.timestamp > b.timestamp ? a : b)).coordinates;
           const newLog: Log = {
-            id: currentHistory.length,
+            id: currentHistory.length + i,
             car: cars[i],
             timestamp: new Date(),
             coordinates: this.randomNewCoordinates(lastPosition),

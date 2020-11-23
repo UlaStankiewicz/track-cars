@@ -1,6 +1,6 @@
 import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { TrackCarsResponse } from 'src/schema/track-cars-response';
+import { TrackCarsResponse } from '../schema/track-cars-response';
 import { CarService } from './car.service';
 
 @ApiTags('car')

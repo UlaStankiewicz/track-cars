@@ -9,7 +9,10 @@ export class CarService {
   private allCars: Car[] = [];
   private carsHistory: Log[] = [];
 
-  constructor(private readonly generatorService: GeneratorService) {}
+  constructor(private readonly generatorService: GeneratorService) {
+    this.allCars = this.generatorService.createCars(10);
+    this.updateHistory(this.generatorService.initHistory(this.allCars));
+  }
 
   trackCars(): Log[] {
     return this.carsHistory;
@@ -21,12 +24,7 @@ export class CarService {
 
   @Cron('*/5 * * * * *')
   update(): void {
-    if (this.allCars.length === 0) {
-      this.allCars = this.generatorService.createCars(10);
-      this.updateHistory(this.generatorService.initHistory(this.allCars));
-    } else {
-      this.updateHistory(this.generatorService.generateHistoryUpdate(this.allCars, this.carsHistory));
-    }
+    this.updateHistory(this.generatorService.generateHistoryUpdate(this.allCars, this.carsHistory));
   }
 
   private updateHistory(update: Log[]): void {

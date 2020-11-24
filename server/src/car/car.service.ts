@@ -10,7 +10,7 @@ export class CarService {
   private carsPositions: CarPosition[] = [];
 
   constructor(private readonly generatorService: GeneratorService) {
-    this.allCars = this.generatorService.createCars(10);
+    this.allCars = this.generatorService.createCars(30);
     this.carsPositions = this.generatorService.initPositions(this.allCars);
   }
 
@@ -20,6 +20,18 @@ export class CarService {
 
   getCars(): Car[] {
     return this.allCars;
+  }
+
+  searchCars(cars: CarPosition[], registrationNumber: string): CarPosition[] {
+    const found: CarPosition[] = [];
+
+    cars.map((p) => {
+      if (p.car.registrationNumber.toLocaleLowerCase().includes(registrationNumber.toLocaleLowerCase())) {
+        found.push(p);
+      }
+    });
+
+    return found;
   }
 
   filterCars(cars: CarPosition[], filtersQuery: string): CarPosition[] {

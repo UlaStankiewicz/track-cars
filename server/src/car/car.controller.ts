@@ -26,7 +26,7 @@ export class CarController {
 
       if (trackCarsQuery.search && trackCarsQuery.search.length > 0) {
         console.log(`[LOG] Query - search text: ${trackCarsQuery.search}`);
-        // TODO
+        carsPositions = this.carService.searchCars(carsPositions, trackCarsQuery.search);
       }
 
       if (trackCarsQuery.filters && trackCarsQuery.filters.length > 0) {

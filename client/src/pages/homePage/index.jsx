@@ -75,7 +75,6 @@ const HomePage = () => {
   }
 
   const searchOnClick = (text) => {
-    console.log('ustaw', text);
     setSearchText(text);
   }
 

@@ -17,6 +17,7 @@ export class GeneratorService {
     { brand: 'Opel', model: 'Vivaro' },
     { brand: 'Renault', model: 'Master' },
   ];
+  private readonly availableRegistrationsNumbers = ['GD', 'GA', 'GSP'];
 
   createCars(carCount = 10): Car[] {
     const cars: Car[] = [];
@@ -24,7 +25,9 @@ export class GeneratorService {
       const randomCarModel = this.availableCarsModels[Math.floor(Math.random() * this.availableCarsModels.length)];
       const newCar: Car = {
         id: i,
-        registrationNumber: `GD ${i}`,
+        registrationNumber: `${
+          this.availableRegistrationsNumbers[Math.floor(Math.random() * this.availableRegistrationsNumbers.length)]
+        } ${i}`,
         brand: randomCarModel.brand,
         model: randomCarModel.model,
       };

@@ -10,7 +10,7 @@ export class CarService {
   private carsPositions: CarPosition[] = [];
 
   constructor(private readonly generatorService: GeneratorService) {
-    this.allCars = this.generatorService.createCars(30);
+    this.allCars = this.generatorService.createCars(15);
     this.carsPositions = this.generatorService.initPositions(this.allCars);
   }
 

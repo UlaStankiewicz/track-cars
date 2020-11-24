@@ -1,7 +1,7 @@
 import { styled } from '@material-ui/styles';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 
-export const Marker = styled(({ children, className, ...props }) => (
+export const Marker = styled(({ className }) => (
   <div className={className}>
     <LocalShippingIcon />
   </div>

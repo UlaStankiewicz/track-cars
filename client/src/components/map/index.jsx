@@ -10,8 +10,8 @@ const MapContainer = styled('div')(() => ({
 
 export const Map = props => {
   const defaulCenter = {
-    lat: 54.43,
-    lng: 18.51,
+    lat: 54.44,
+    lng: 18.52,
   };
   const defaultZoom = 11;
 
@@ -22,7 +22,7 @@ export const Map = props => {
           defaultCenter={defaulCenter}
           defaultZoom={defaultZoom}
         >
-          {props.carsPosition && props.carsPosition.map((p, id) =>
+          {props.carsPositions && props.carsPositions.map((p, id) =>
             <Marker
               key={id}
               lat={p.coordinates.latitude}
@@ -35,7 +35,7 @@ export const Map = props => {
 };
 
 Map.propTypes = {
-  carsPosition: PropTypes.arrayOf(PropTypes.shape({
+  carsPositions: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     car: PropTypes.shape({
       id: PropTypes.number.isRequired,

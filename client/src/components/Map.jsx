@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from '@material-ui/styles';
 import GoogleMapReact from 'google-map-react';
 import PropTypes from 'prop-types';
-import { Marker } from '../marker';
+import { Marker } from './Marker';
 
 export const Map = styled(({ className, ...props }) => {
   const defaulCenter = {

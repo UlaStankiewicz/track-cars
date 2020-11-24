@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { PageContainer } from '../PageContainer';
-import { Map } from '../../components/map';
-import { CarsList } from '../../components/carsList';
-import { Filters } from '../../components/filters';
+import { Map } from '../../components/Map';
+import { CarsList } from '../../components/CarsList';
+import { Filters } from '../../components/Filters';
+import { SearchBox } from '../../components/SearchBox';
 
 const availableFilters = [
   {
@@ -40,6 +41,7 @@ const availableFilters = [
 ];
 
 const HomePage = () => {
+  const [searchText, setSearchText] = useState("");
   const [cars, setCars] = useState([]);
   const [filters, setFilters] = useState(availableFilters);
 
@@ -58,18 +60,23 @@ const HomePage = () => {
     }
     async function fetch () {
       const filtersQuery = prepareFiltersQuery();
-      const result = await axios(`http://localhost:8080/car?filters=${filtersQuery}`);
+      const result = await axios(`http://localhost:8080/car?filters=${filtersQuery}&search=${searchText}`);
       setCars(result.data.data);
     }
 
     fetch();
     return () => clearInterval(interval);
-  }, [filters]);
+  }, [filters, searchText]);
 
   const onFilterChange = (event) => {
     const updatedFilters = filters.slice();
     updatedFilters.find(f => f.label === event.target.id).isChecked = event.target.checked;
     setFilters(updatedFilters);
+  }
+
+  const searchOnClick = (text) => {
+    console.log('ustaw', text);
+    setSearchText(text);
   }
 
   return (
@@ -80,6 +87,7 @@ const HomePage = () => {
             <Typography align="center" variant="h4">
               Track Cars
             </Typography>
+            <SearchBox searchOnClick={searchOnClick} />
             <Filters filters={filters} onFilterChange={onFilterChange} />
             <CarsList carsPositions={cars} />
           </Box>

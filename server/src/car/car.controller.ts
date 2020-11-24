@@ -24,7 +24,13 @@ export class CarController {
     try {
       let carsPositions: CarPosition[] = this.carService.trackCars();
 
+      if (trackCarsQuery.search && trackCarsQuery.search.length > 0) {
+        console.log(`[LOG] Query - search text: ${trackCarsQuery.search}`);
+        // TODO
+      }
+
       if (trackCarsQuery.filters && trackCarsQuery.filters.length > 0) {
+        console.log(`[LOG] Query - filters: ${trackCarsQuery.filters}`);
         carsPositions = this.carService.filterCars(carsPositions, trackCarsQuery.filters);
       }
 

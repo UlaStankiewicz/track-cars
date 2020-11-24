@@ -47,14 +47,24 @@ const HomePage = () => {
     const interval = setInterval(() => {
       fetch();
     }, 5000);
+    function prepareFiltersQuery () {
+      let result = "";
+      filters.forEach(filter => {
+        if (filter.isChecked) {
+          result += `${filter.value},`;
+        }
+      })
+      return result;
+    }
     async function fetch () {
-      const result = await axios(`http://localhost:8080/car`);
+      const filtersQuery = prepareFiltersQuery();
+      const result = await axios(`http://localhost:8080/car?filters=${filtersQuery}`);
       setCars(result.data.data);
     }
 
     fetch();
     return () => clearInterval(interval);
-  }, []);
+  }, [filters]);
 
   const onFilterChange = (event) => {
     const updatedFilters = filters.slice();

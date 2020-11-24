@@ -4,13 +4,47 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import { PageContainer } from '../PageContainer';
 import { Map } from '../../components/map';
 import { CarsList } from '../../components/carsList';
+import { Filters } from '../../components/filters';
+
+const availableFilters = [
+  {
+    label: 'Peugeot Boxer',
+    value: 'peugeot-boxer',
+    isChecked: true,
+  },
+  {
+    label: 'Peugeot Partner',
+    value: 'peugeot-partner',
+    isChecked: true,
+  },
+  {
+    label: 'Ford Transit',
+    value: 'ford-transit',
+    isChecked: true,
+  },
+  {
+    label: 'Citroen Jumper',
+    value: 'citroen-jumper',
+    isChecked: true,
+  },
+  {
+    label: 'Opel Vivaro',
+    value: 'opel-vivaro',
+    isChecked: true,
+  },
+  {
+    label: 'Renault Master',
+    value: 'renault-master',
+    isChecked: true,
+  }
+];
 
 const HomePage = () => {
   const [cars, setCars] = useState([]);
+  const [filters, setFilters] = useState(availableFilters);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log('This will run every second!');
       fetch();
     }, 5000);
     async function fetch () {
@@ -22,6 +56,12 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const onFilterChange = (event) => {
+    const updatedFilters = filters.slice();
+    updatedFilters.find(f => f.label === event.target.id).isChecked = event.target.checked;
+    setFilters(updatedFilters);
+  }
+
   return (
     <PageContainer>
       <Grid container>
@@ -30,7 +70,7 @@ const HomePage = () => {
             <Typography align="center" variant="h4">
               Track Cars
             </Typography>
-            <p>filters</p>
+            <Filters filters={filters} onFilterChange={onFilterChange} />
             <CarsList carsPositions={cars} />
           </Box>
         </Grid>

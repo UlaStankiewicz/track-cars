@@ -22,6 +22,30 @@ export class CarService {
     return this.allCars;
   }
 
+  filterCars(cars: CarPosition[], filtersQuery: string): CarPosition[] {
+    const filteredCarsPositions: CarPosition[] = [];
+
+    const filters = filtersQuery.split(',');
+    filters.forEach((filter) => {
+      const car = filter.split('-');
+      if (car.length === 2) {
+        const brand = car[0].trim();
+        const model = car[1].trim();
+
+        cars.map((p) => {
+          if (
+            p.car.brand.toLocaleLowerCase() === brand.toLocaleLowerCase() &&
+            p.car.model.toLocaleLowerCase() === model.toLocaleLowerCase()
+          ) {
+            filteredCarsPositions.push(p);
+          }
+        });
+      }
+    });
+
+    return filteredCarsPositions;
+  }
+
   @Cron('*/5 * * * * *')
   update(): void {
     this.carsPositions = this.generatorService.generateNewPositions(this.allCars, this.carsPositions);
